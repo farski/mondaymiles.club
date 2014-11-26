@@ -1,0 +1,28 @@
+html {
+  margin: 0;
+  border: 0;
+  padding: 0;
+
+  background-image: url('/images/backgrounds/cattle-country.jpg');
+  background-position: top center;
+}
+
+body {
+  margin: 105px auto;
+  border: 0;
+  padding: 0;
+
+  width: 481px;
+  height: 565px;
+
+  background-image: url('/images/copy.png');
+  background-position: top center;
+}
+
+#twitter {
+  display: block;
+  width: 45px;
+  height: 50px;
+  margin: 0 auto;
+  padding: 424px 0 0;
+}
