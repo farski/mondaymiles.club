@@ -1,42 +1,59 @@
-$(function () {
+function getNextWorkout() {
   var now = new Date();
 
-  if (now.getDay() === 0) {
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+  var target = new Date();
 
-    var mdate = tomorrow.getDate();
-
-    if (mdate % 2 == 0) {
-      $('#schedule').text('Tomorrow @ 8 PM');
-    } else {
-      $('#schedule').text('Tomorrow @ 7 AM');
-    }
-  } else if (now.getDay() === 1) {
-    var mdate = now.getDate();
-
-    if (mdate % 2 == 0) {
-      $('#schedule').text('Today @ 8 PM');
-    } else {
-      $('#schedule').text('Today @ 7 AM');
-    }
+  if (now.getDay() === 1 && (((now.getDate() % 2 === 0) && (now.getHours() < 20)) || ((now.getDate() % 2 !== 0) && (now.getHours() < 7)))) {
+    // Target date still is today;
   } else {
+    // Target date is next Monday
+    var d = new Date(now);
+    var day = d.getDay();
+    var diff = d.getDate() - day + (day == 0 ? -6 : 1);
 
-    function getMonday(d) {
-      d = new Date(d);
-      var day = d.getDay();
-      var diff = d.getDate() - day + (day == 0 ? -6 : 1);
+    target = new Date(d.setDate(diff + 7));
+  }
 
-      return new Date(d.setDate(diff + 7));
-    }
+  // Reset mintes and seconds
+  target.setMinutes(0);
+  target.setSeconds(0);
 
-    var monday = getMonday(now);
-    var mdate = monday.getDate();
+  // Set the target hour
+  var h = (target.getDate() % 2 === 0) ? 20 : 7;
+  target.setHours(h);
 
-    if (mdate % 2 == 0) {
-      $('#schedule').text('Monday @ 8 PM');
-    } else {
-      $('#schedule').text('Monday @ 7 AM');
-    }
+  return target
+}
+
+$(function () {
+  $('article h1 span').click(function () {
+    $('article h1').toggleClass('alt');
+  });
+
+  var nextWorkout = getNextWorkout();
+  var workoutTime = (nextWorkout.getDate() % 2 == 0) ? '8 PM' : '7 AM'
+
+  var now = new Date();
+
+  var units = (countdown.DAYS | countdown.HOURS | countdown.MINUTES);
+  var max = 11;
+  var digits = 0;
+
+  function doCountdown() {
+    var ts = countdown(nextWorkout, null, units, max, digits);
+    var msg = ts.toString();
+    $('#countdown').text(msg);
+
+    requestAnimationFrame(doCountdown, $('#countdown'));
+  }
+
+  doCountdown();
+
+  if (now.getDay() === 0) {
+    $('#schedule').text('Tomorrow @ ' + workoutTime);
+  } else if (now.getDay() === 1) {
+    $('#schedule').text('Today @ ' + workoutTime);
+  } else {
+    $('#schedule').text('Monday @ ' + workoutTime);
   }
 });
