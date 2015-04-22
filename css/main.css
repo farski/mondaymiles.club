@@ -58,7 +58,11 @@ article h1 {
 
 article h1 span {
   background: white;
+  cursor: pointer;
 }
+
+#countdown, .alt #schedule { display: none; }
+.alt #countdown { display: inline-block; }
 
 article h2 {
   text-align: center;
@@ -142,4 +146,42 @@ footer p {
   border: 0;
   padding: 0;
   height: 40px;
+}
+
+@media (max-width: 475px) {
+  html {
+    background-position: center -100px;
+  }
+
+  header {
+    padding-top: 20px;
+  }
+
+  header h1 .monday {
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  header h1 .miles {
+    font-size: 61.5px;
+    line-height: 61.5px;
+    margin-top: -10px;
+  }
+
+  article h1 {
+    font-size: 22px;
+  }
+
+  article a[href='//www.twitter.com/mondaymiles'] {
+    font-size: 30px;
+  }
+
+  article h2 {
+    font-size: 14px;
+  }
+
+  footer p {
+    font-size: 24px;
+    height: 28px;
+  }
 }
